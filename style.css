@@ -520,40 +520,518 @@ tr:hover {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+
+/* Large tablets and small desktops */
+@media (max-width: 1024px) {
     .book {
-        width: 95%;
-        height: 80vh;
-        max-width: 600px;
+        width: 85%;
+        height: 85vh;
+        max-width: 800px;
+        transform: rotateY(0deg) scale(0.95);
+    }
+    
+    .book.opening {
+        transform: rotateY(-10deg) scale(0.95);
+    }
+    
+    .book.open {
+        transform: rotateY(-20deg) scale(0.98);
     }
     
     .page {
-        width: 47.5%;
-        height: 80vh;
+        width: 400px;
+        height: 85vh;
+        max-height: 550px;
     }
     
     .page-content {
         padding: 20px;
+        font-size: 0.95em;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    body {
+        overflow: auto;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .book-container {
+        padding: 15px 10px;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .book {
+        width: 95%;
+        height: 75vh;
+        max-width: 600px;
+        max-height: 500px;
+        transform: rotateY(0deg) scale(1);
+        position: relative;
+    }
+    
+    .book.closed,
+    .book.opening,
+    .book.open {
+        transform: rotateY(0deg) scale(1);
+    }
+    
+    .page {
+        width: 50%;
+        height: 75vh;
+        max-height: 500px;
+        position: relative;
+        float: left;
+        border-radius: 10px 10px 10px 10px;
+    }
+    
+    .page-left {
+        display: none; /* Hide left page on tablets for better content visibility */
+    }
+    
+    .page-right {
+        width: 100%;
+        float: none;
+        position: relative;
+        right: auto;
+    }
+    
+    .book-spine {
+        display: none; /* Hide book spine on tablets and mobile */
+    }
+    
+    .page-content {
+        padding: 20px 15px;
         font-size: 0.9em;
+        height: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
     
     .slide h1 {
-        font-size: 1.6em;
+        font-size: 1.8em;
+        line-height: 1.2;
+        margin-bottom: 15px;
     }
     
     .slide h2 {
-        font-size: 1.4em;
+        font-size: 1.5em;
+        line-height: 1.3;
+        margin-bottom: 12px;
+    }
+    
+    .slide h3 {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+    
+    .competencies {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+    }
+    
+    .competency-card {
+        padding: 12px;
+        font-size: 0.85em;
+    }
+    
+    table {
+        font-size: 0.8em;
+        overflow-x: auto;
+        display: block;
+        white-space: nowrap;
+        width: 100%;
+        border: 0;
+    }
+    
+    table thead,
+    table tbody,
+    table tr {
+        display: block;
+    }
+    
+    table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    table tr {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        margin-bottom: 10px;
+        padding: 10px;
+        position: relative;
+        background: rgba(255, 255, 255, 0.02);
+    }
+    
+    table td {
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        padding-left: 50%;
+        white-space: normal;
+        text-align: left;
+        display: block;
+        min-width: auto;
+    }
+    
+    table td:before {
+        content: attr(data-label) ": ";
+        position: absolute;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+        color: #007AFF;
+    }
+    
+    th, td {
+        padding: 8px 6px;
+        min-width: 80px;
+    }
+    
+    .user-story {
+        padding: 12px;
+        margin: 10px 0;
+    }
+    
+    .objective-box {
+        padding: 15px;
+        margin: 15px 0;
+        font-size: 0.95em;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+    .book-container {
+        padding: 10px 5px;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .slide-counter {
+        font-size: 0.85em;
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+    }
+    
+    .book {
+        width: 98%;
+        height: 80vh;
+        max-height: 450px;
+        max-width: 100%;
+    }
+    
+    .page {
+        height: 80vh;
+        max-height: 450px;
+        border-radius: 8px;
+    }
+    
+    .page-content {
+        padding: 15px 12px;
+        font-size: 0.8em;
+        height: 100%;
+        overflow-y: auto;
+    }
+    
+    .slide h1 {
+        font-size: 1.5em;
+        line-height: 1.1;
+        margin-bottom: 12px;
+    }
+    
+    .slide h2 {
+        font-size: 1.3em;
+        line-height: 1.2;
+        margin-bottom: 10px;
+    }
+    
+    .slide h3 {
+        font-size: 1.1em;
+        margin-bottom: 8px;
+    }
+    
+    .slide p {
+        font-size: 0.9em;
+        line-height: 1.4;
+        margin-bottom: 8px;
     }
     
     .competencies {
         grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .competency-card {
+        padding: 10px;
+        font-size: 0.8em;
+        text-align: left;
     }
     
     table {
-        font-size: 0.75em;
+        font-size: 0.7em;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
     }
     
     th, td {
+        padding: 6px 4px;
+        min-width: 60px;
+        font-size: 0.75em;
+    }
+    
+    .user-story {
+        padding: 10px;
+        margin: 8px 0;
+    }
+    
+    .user-story h4 {
+        font-size: 0.9em;
+        margin-bottom: 6px;
+    }
+    
+    .objective-box {
+        padding: 12px;
+        margin: 12px 0;
+        font-size: 0.9em;
+        line-height: 1.5;
+    }
+    
+    .acceptance-criteria {
+        padding: 10px;
+        margin: 6px 0;
+        font-size: 0.85em;
+    }
+    
+    .subtitle {
+        font-size: 0.9em;
+        margin-top: 10px;
+    }
+    
+    /* Ensure emoji don't break layout on mobile */
+    .emoji {
+        font-size: 0.8em;
+        margin-right: 5px;
+    }
+    
+    /* Navigation improvements for mobile */
+    .navigation {
+        position: fixed;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: 10px;
+        padding: 0;
+        width: auto;
+        max-width: calc(100% - 20px);
+    }
+    
+    .nav-btn {
+        padding: 12px 20px;
+        font-size: 0.9em;
+        border-radius: 20px;
+        min-width: 100px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .slide-counter {
+        top: 15px;
+        right: 15px;
+        padding: 8px 15px;
+        font-size: 0.9em;
+        border-radius: 15px;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 320px) {
+    .book-container {
+        padding: 5px;
+    }
+    
+    .book {
+        width: 100%;
+        height: 85vh;
+        max-height: 400px;
+    }
+    
+    .page {
+        height: 85vh;
+        max-height: 400px;
+    }
+    
+    .page-content {
+        padding: 12px 8px;
+        font-size: 0.75em;
+    }
+    
+    .slide h1 {
+        font-size: 1.3em;
+    }
+    
+    .slide h2 {
+        font-size: 1.2em;
+    }
+    
+    .slide h3 {
+        font-size: 1em;
+    }
+    
+    table {
+        font-size: 0.65em;
+    }
+    
+    th, td {
+        padding: 4px 2px;
+        min-width: 50px;
+    }
+    
+    .competency-card {
         padding: 8px;
+        font-size: 0.75em;
+    }
+    
+    .navigation {
+        bottom: 10px;
+        gap: 8px;
+    }
+    
+    .nav-btn {
+        padding: 10px 15px;
+        font-size: 0.85em;
+        min-width: 80px;
+    }
+    
+    .slide-counter {
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+        font-size: 0.85em;
+    }
+}
+
+/* Landscape orientation adjustments for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .book-container {
+        height: 100vh;
+        padding: 5px;
+    }
+    
+    .book {
+        height: 95vh;
+        max-height: 350px;
+        width: 90%;
+    }
+    
+    .page {
+        height: 95vh;
+        max-height: 350px;
+    }
+    
+    .page-content {
+        font-size: 0.75em;
+        padding: 10px;
+    }
+    
+    .navigation {
+        bottom: 5px;
+    }
+    
+    .slide-counter {
+        top: 5px;
+        font-size: 0.8em;
+        padding: 4px 8px;
+    }
+}
+
+/* Touch and interaction improvements */
+@media (max-width: 768px) {
+    /* Improve touch targets */
+    .nav-btn {
+        min-height: 44px;
+        min-width: 44px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    
+    /* Prevent zoom on input focus */
+    input, select, textarea {
+        font-size: 16px;
+    }
+    
+    /* Smooth scrolling for content */
+    .page-content {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+    
+    /* Disable text selection on navigation elements */
+    .slide-counter {
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    
+    /* Improve table scrolling on mobile */
+    table {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Better hover states for touch devices */
+    .competency-card:hover {
+        transform: none;
+    }
+    
+    .competency-card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+}
+
+/* Aspect ratio based adjustments */
+@media (max-width: 768px) and (max-aspect-ratio: 3/4) {
+    /* For very tall screens, reduce book height more */
+    .book {
+        height: 70vh !important;
+        max-height: 420px !important;
+    }
+    
+    .page {
+        height: 70vh !important;
+        max-height: 420px !important;
+    }
+}
+
+@media (max-width: 480px) and (max-aspect-ratio: 3/4) {
+    /* For very tall mobile screens */
+    .book {
+        height: 65vh !important;
+        max-height: 380px !important;
+    }
+    
+    .page {
+        height: 65vh !important;
+        max-height: 380px !important;
+    }
+    
+    .page-content {
+        font-size: 0.75em;
     }
 }

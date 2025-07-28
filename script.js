@@ -158,28 +158,93 @@ class BookPresentation {
         // Touch/swipe support for mobile
         let startX = 0;
         let startY = 0;
+        let startTime = 0;
+        let isScrolling = false;
         
         document.addEventListener('touchstart', (e) => {
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
-        });
+            startTime = Date.now();
+            isScrolling = false;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!startX || !startY) return;
+            
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const diffX = Math.abs(startX - currentX);
+            const diffY = Math.abs(startY - currentY);
+            
+            // Determine if user is scrolling vertically
+            if (diffY > diffX && diffY > 10) {
+                isScrolling = true;
+            }
+            
+            // Prevent horizontal swipe if scrolling vertically or if swipe distance is significant
+            if (!isScrolling && diffX > 30) {
+                e.preventDefault();
+            }
+        }, { passive: false });
 
         document.addEventListener('touchend', (e) => {
-            if (this.isAnimating) return;
+            if (this.isAnimating || isScrolling) return;
             
             const endX = e.changedTouches[0].clientX;
             const endY = e.changedTouches[0].clientY;
             const diffX = startX - endX;
             const diffY = startY - endY;
+            const timeDiff = Date.now() - startTime;
 
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            // Only trigger swipe if:
+            // 1. Horizontal movement is greater than vertical
+            // 2. Movement is at least 50px
+            // 3. Swipe was fast enough (less than 500ms)
+            // 4. Not scrolling vertically
+            if (Math.abs(diffX) > Math.abs(diffY) && 
+                Math.abs(diffX) > 50 && 
+                timeDiff < 500 && 
+                !isScrolling) {
+                
                 if (diffX > 0) {
                     this.changeSlide(1);
                 } else {
                     this.changeSlide(-1);
                 }
             }
+            
+            // Reset values
+            startX = 0;
+            startY = 0;
+            startTime = 0;
+            isScrolling = false;
+        }, { passive: true });
+        
+        // Handle window resize and orientation changes
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                this.handleResize();
+            }, 250);
         });
+        
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                this.handleResize();
+            }, 500); // Wait for orientation change to complete
+        });
+    }
+    
+    handleResize() {
+        // Recalculate content height and update display
+        this.updateContent();
+        this.updateBookState();
+        
+        // Force a reflow to ensure proper rendering
+        this.book.style.display = 'none';
+        this.book.offsetHeight; // Trigger reflow
+        this.book.style.display = '';
     }
 
     showSlide(n) {
